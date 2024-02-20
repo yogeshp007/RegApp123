@@ -1,0 +1,272 @@
+﻿@model RegApp.Models.tblUser
+@{
+    ViewBag.Title = "Reg Form";
+    Layout = "~/Views/Shared/_mainpage.cshtml";
+
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/scripts/jquery-3.3.1.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+
+        $('#drpState').change(function () {
+
+            var sid = $(this).val();
+
+            if (sid != '') {
+
+                $.ajax({
+                    url: '/MyUser/GetCityByState/',
+                    type: 'POST',
+                    data: { id: sid },
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+
+                        $('#drpCity').empty().append("<option>Select City</option>");
+                        $.each(data, function (i) {
+
+                            $('#drpCity').append("<option value='" + data[i].Id + "'>" + data[i].cname + "</option>");
+
+                        });
+                    },
+                    error: function (x) { alert(x.fail) }
+                });
+
+            }
+            else {
+                //alert('Please select state first');
+                $('#drpCity').empty().append("<option>Select City</option>");
+            }
+
+        });
+
+    });
+
+</script>
+
+<h1>@ViewBag.msg</h1>
+
+@using (Html.BeginForm("Index", "MyUser", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    if (Model.Id > 0)
+    {
+
+        <input type="hidden" name="uid" value="@Model.Id" />
+        <ul class="field-list">
+            <li>
+                <label class="form-label">
+                    User Name
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    @Html.TextBoxFor(a => a.uname)
+                </div>
+            </li>
+            <li>
+                <label class="form-label">
+                    Email ID
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    @Html.TextBoxFor(a => a.uemail)
+                </div>
+            </li>
+
+            <li>
+                <label class="form-label">
+                    Gender
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    @Html.RadioButtonFor(a => a.ugender, "male", new { @checked = "checked" }) Male
+                    @Html.RadioButtonFor(a => a.ugender, "female") Female
+                </div>
+            </li>
+            <li>
+                <label class="form-label">
+                    Select State
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    @Html.DropDownListFor(a => a.stateid, ViewBag.states as SelectList, "Select State", new { id = "drpState" })
+                </div>
+                <script>
+                    $(document).ready(function () {
+                            var sid = $('#drpState').val();
+
+                            if (sid != '') {
+
+                                $.ajax({
+                                    url: '/MyUser/GetCityByState/',
+                                    type: 'POST',
+                                    data: { id: sid },
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        $('#drpCity').empty().append("<option>Select City</option>");
+                                        $.each(data, function (i) {
+
+                                            $('#drpCity').append("<option value='" + data[i].Id + "' selected='"+@Model.cityid+"'>" + data[i].cname + "</option>");
+
+                                        });
+                                    },
+                                    error: function (x) { alert(x.fail) }
+                                });
+
+                            }
+                            else {
+                                alert('Please select state first');
+                                $('#drpCity').empty().append("<option>Select City</option>");
+                            }
+
+                        });
+                </script>
+            </li>
+            <li>
+                <label class="form-label">
+                    Select City
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    @Html.DropDownListFor(a => a.cityid, new SelectList(new List<string>()), "Select City", new { id = "drpCity" })
+                </div>
+            </li>
+            <li>
+                <label class="form-label">
+                    Select Education
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+
+
+                    @{var arr = Model.ueducation.Split(',');
+                    }
+
+                    @foreach (string item in ViewBag.edus as List<string>)
+                    {
+
+                    <input type="checkbox" name="edus" value="@item"
+                           @foreach (var it in arr) { if (it == item) { <text> checked="checked" </text>    } } />@item
+
+    }
+
+                </div>
+            </li>
+            <li>
+                <label class="form-label">
+                    Upload Photo
+                    <span class="form-required"> * </span>
+                </label>
+                <div class="form-input">
+                    <input type="hidden" name="imgval" value="@Model.uphoto" />
+                    <img src="@Model.uphoto" alt="@Model.uphoto" width="300" height="300" />
+                    <input type="file" name="ufile" />
+                </div>
+            </li>
+        </ul>
+
+        <input type="submit" value="Update Now">
+    }
+    else
+    {
+        <ul class="field-list">
+                                <li>
+                                    <label class="form-label">
+                                        User Name
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.TextBoxFor(a => a.uname)
+
+                                    </div>
+                                    <div class="form-input">
+                                        @Html.ValidationMessageFor(a => a.uname, "", new { @class = "text-danger" })
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="form-label">
+                                        Email ID
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.TextBoxFor(a => a.uemail)
+                                    </div>
+                                    <div>
+                                        @Html.ValidationMessageFor(a => a.uemail, "", new { @class = "text-danger" })
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <label class="form-label">
+                                        Password
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.PasswordFor(a => a.upass)
+                                    </div>
+                                </li>
+
+
+                                <li>
+                                    <label class="form-label">
+                                        Gender
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.RadioButtonFor(a => a.ugender, "male", new { @checked = "checked" }) Male
+                                        @Html.RadioButtonFor(a => a.ugender, "female") Female
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="form-label">
+                                        Select State
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.DropDownListFor(a => a.stateid, ViewBag.states as SelectList, "Select State", new { id = "drpState" })
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="form-label">
+                                        Select City
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        @Html.DropDownListFor(a => a.cityid, new SelectList(new List<string>()), "Select City", new { id = "drpCity" })<string><string>
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="form-label">
+                                        Select Education
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+
+                                        @foreach (string item in ViewBag.edus as List<string>)
+                                        {
+
+                                            <input type="checkbox" name="edus" value="@item" /> @item
+                                        }
+                                    </div>
+                                </li>
+                                <li>
+                                    <label class="form-label">
+                                        Upload Photo
+                                        <span class="form-required"> * </span>
+                                    </label>
+                                    <div class="form-input">
+                                        <input type="file" name="ufile" />
+                                    </div>
+                                </li>
+                            </ul>
+    <input type="submit" value="Apply Now">
+    }
+ }
+
+<form action="MyUser" method="post" enctype="multipart/form-data"></form>
+
+<script src="~/scripts/jquery.validate.min.js"></script>
+<script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>

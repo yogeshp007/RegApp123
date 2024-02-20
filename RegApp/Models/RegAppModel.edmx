@@ -1,0 +1,275 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="MyDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tblCity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cname" Type="varchar" MaxLength="33" />
+          <Property Name="stateid" Type="int" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="sname" Type="varchar" MaxLength="22" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="uname" Type="varchar" MaxLength="33" />
+          <Property Name="uemail" Type="varchar" MaxLength="33" />
+          <Property Name="upass" Type="varchar" MaxLength="100" />
+          <Property Name="ugender" Type="varchar" MaxLength="6" />
+          <Property Name="stateid" Type="int" />
+          <Property Name="cityid" Type="int" />
+          <Property Name="ueducation" Type="varchar" MaxLength="100" />
+          <Property Name="uphoto" Type="varchar" MaxLength="100" />
+          <Property Name="isActive" Type="bit" />
+          <Property Name="regDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__tblCity__stateid__25869641">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblCity">
+              <PropertyRef Name="stateid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUser__cityid__29572725">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="cityid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUser__stateid__286302EC">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="stateid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GetUsersList" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="MyDBModelStoreContainer">
+          <EntitySet Name="tblCity" EntityType="Self.tblCity" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblState" EntityType="Self.tblState" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__tblCity__stateid__25869641" Association="Self.FK__tblCity__stateid__25869641">
+            <End Role="tblState" EntitySet="tblState" />
+            <End Role="tblCity" EntitySet="tblCity" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUser__cityid__29572725" Association="Self.FK__tblUser__cityid__29572725">
+            <End Role="tblCity" EntitySet="tblCity" />
+            <End Role="tblUser" EntitySet="tblUser" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUser__stateid__286302EC" Association="Self.FK__tblUser__stateid__286302EC">
+            <End Role="tblState" EntitySet="tblState" />
+            <End Role="tblUser" EntitySet="tblUser" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="MyDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tblCity">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cname" Type="String" MaxLength="33" FixedLength="false" Unicode="false" />
+          <Property Name="stateid" Type="Int32" />
+          <NavigationProperty Name="tblState" Relationship="Self.FK__tblCity__stateid__25869641" FromRole="tblCity" ToRole="tblState" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblUser__cityid__29572725" FromRole="tblCity" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblState">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sname" Type="String" MaxLength="22" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tblCities" Relationship="Self.FK__tblCity__stateid__25869641" FromRole="tblState" ToRole="tblCity" />
+          <NavigationProperty Name="tblUsers" Relationship="Self.FK__tblUser__stateid__286302EC" FromRole="tblState" ToRole="tblUser" />
+        </EntityType>
+        <EntityType Name="tblUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="uname" Type="String" MaxLength="33" FixedLength="false" Unicode="false" />
+          <Property Name="uemail" Type="String" MaxLength="33" FixedLength="false" Unicode="false" />
+          <Property Name="upass" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="ugender" Type="String" MaxLength="6" FixedLength="false" Unicode="false" />
+          <Property Name="stateid" Type="Int32" />
+          <Property Name="cityid" Type="Int32" />
+          <Property Name="ueducation" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="uphoto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="isActive" Type="Boolean" />
+          <Property Name="regDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblCity" Relationship="Self.FK__tblUser__cityid__29572725" FromRole="tblUser" ToRole="tblCity" />
+          <NavigationProperty Name="tblState" Relationship="Self.FK__tblUser__stateid__286302EC" FromRole="tblUser" ToRole="tblState" />
+        </EntityType>
+        <Association Name="FK__tblCity__stateid__25869641">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblCity">
+              <PropertyRef Name="stateid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUser__cityid__29572725">
+          <End Role="tblCity" Type="Self.tblCity" Multiplicity="0..1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblCity">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="cityid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__tblUser__stateid__286302EC">
+          <End Role="tblState" Type="Self.tblState" Multiplicity="0..1" />
+          <End Role="tblUser" Type="Self.tblUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tblState">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="tblUser">
+              <PropertyRef Name="stateid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tblCities" EntityType="Self.tblCity" />
+          <EntitySet Name="tblStates" EntityType="Self.tblState" />
+          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
+          <AssociationSet Name="FK__tblCity__stateid__25869641" Association="Self.FK__tblCity__stateid__25869641">
+            <End Role="tblState" EntitySet="tblStates" />
+            <End Role="tblCity" EntitySet="tblCities" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUser__cityid__29572725" Association="Self.FK__tblUser__cityid__29572725">
+            <End Role="tblCity" EntitySet="tblCities" />
+            <End Role="tblUser" EntitySet="tblUsers" />
+          </AssociationSet>
+          <AssociationSet Name="FK__tblUser__stateid__286302EC" Association="Self.FK__tblUser__stateid__286302EC">
+            <End Role="tblState" EntitySet="tblStates" />
+            <End Role="tblUser" EntitySet="tblUsers" />
+          </AssociationSet>
+          <FunctionImport Name="GetUsersList" ReturnType="Collection(MyDBModel.GetUsersList_Result)" />
+        </EntityContainer>
+        <ComplexType Name="GetUsersList_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="uname" Nullable="true" MaxLength="33" />
+          <Property Type="String" Name="uemail" Nullable="true" MaxLength="33" />
+          <Property Type="String" Name="ugender" Nullable="true" MaxLength="6" />
+          <Property Type="Boolean" Name="isActive" Nullable="true" />
+          <Property Type="String" Name="uphoto" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="sname" Nullable="true" MaxLength="22" />
+          <Property Type="String" Name="cname" Nullable="true" MaxLength="33" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="MyDBModelStoreContainer" CdmEntityContainer="DBEntities">
+          <EntitySetMapping Name="tblCities">
+            <EntityTypeMapping TypeName="MyDBModel.tblCity">
+              <MappingFragment StoreEntitySet="tblCity">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="cname" ColumnName="cname" />
+                <ScalarProperty Name="stateid" ColumnName="stateid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStates">
+            <EntityTypeMapping TypeName="MyDBModel.tblState">
+              <MappingFragment StoreEntitySet="tblState">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="sname" ColumnName="sname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="MyDBModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="uemail" ColumnName="uemail" />
+                <ScalarProperty Name="upass" ColumnName="upass" />
+                <ScalarProperty Name="ugender" ColumnName="ugender" />
+                <ScalarProperty Name="stateid" ColumnName="stateid" />
+                <ScalarProperty Name="cityid" ColumnName="cityid" />
+                <ScalarProperty Name="ueducation" ColumnName="ueducation" />
+                <ScalarProperty Name="uphoto" ColumnName="uphoto" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="regDate" ColumnName="regDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetUsersList" FunctionName="MyDBModel.Store.GetUsersList">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="MyDBModel.GetUsersList_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="uname" ColumnName="uname" />
+                <ScalarProperty Name="uemail" ColumnName="uemail" />
+                <ScalarProperty Name="ugender" ColumnName="ugender" />
+                <ScalarProperty Name="isActive" ColumnName="isActive" />
+                <ScalarProperty Name="uphoto" ColumnName="uphoto" />
+                <ScalarProperty Name="sname" ColumnName="sname" />
+                <ScalarProperty Name="cname" ColumnName="cname" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

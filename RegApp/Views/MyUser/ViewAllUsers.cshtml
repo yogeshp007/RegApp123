@@ -1,0 +1,123 @@
+﻿@using RegApp.Models; 
+@{
+    ViewBag.Title = "ViewAllUsers";
+    Layout = null;
+    //Layout = "~/Views/Shared/_mainpage.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();
+    });
+</script>
+
+
+
+<style>
+    #eample{
+        color:red !important;
+         background-color:black !important;
+    }
+</style>
+
+
+<h2>View All Users</h2>
+<hr/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <table id="example" class="table table-borderd" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            State
+                        </th>
+                        <th>
+                            City
+                        </th>
+                        <th>
+                            Photo
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (UserList item in Model)
+                    {
+
+                        //var id = item.GetType().GetProperty("Id").GetValue(item);
+                        //var uname = item.GetType().GetProperty("uname").GetValue(item);
+                        //var sname = item.GetType().GetProperty("sname").GetValue(item);
+                        //var cname = item.GetType().GetProperty("cname").GetValue(item);
+                        //var uphoto = item.GetType().GetProperty("uphoto").GetValue(item);
+
+                        <tr>
+                            <td>
+                                @item.Id
+
+                            </td>
+                            <td>
+                                @item.uname
+                            </td>
+                            <td>
+                                @item.sname
+                            </td>
+                            <td>
+                                @item.cname
+                            </td>
+                            <td>
+                                <img src="../@item.uphoto" width="150" height="150" alt="@item.uphoto" />
+                            </td>
+                            <td>
+                                <a class="btn btn-link" href="/MyUser/Index/@item.Id">Edit</a> | 
+                                <a class="btn btn-link" onclick="return confirm('Are u sure??');" href="/MyUser/Delete/@item.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Details</h4>
+            </div>
+            <div class="modal-body">
+               
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
