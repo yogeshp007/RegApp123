@@ -11,11 +11,17 @@ namespace RegApp.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class tblUser
     {
         public int Id { get; set; }
+
+        [Required]
+        [StringLength(5)]
         public string uname { get; set; }
+
+        [Required]
         public string uemail { get; set; }
         public string upass { get; set; }
         public string ugender { get; set; }

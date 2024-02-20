@@ -69,10 +69,10 @@ namespace RegApp.Controllers
                     db.tblUsers.Add(user);
                     db.SaveChanges();
 
-                    ViewBag.msg = "user record saved";
-                    ModelState.Clear();
-                    ViewBag.states = new SelectList(db.tblStates.ToList(), "Id", "sname");
-                    ViewBag.edus = new List<string> { "SSC", "HSC", "Diploma", "Degree", "Masters", "Phd" };
+                    //ViewBag.msg = "user record saved";
+                    //ModelState.Clear();
+                    //ViewBag.states = new SelectList(db.tblStates.ToList(), "Id", "sname");
+                    //ViewBag.edus = new List<string> { "SSC", "HSC", "Diploma", "Degree", "Masters", "Phd" };
                     return RedirectToAction("ViewAllUsers");
                 }
                 ViewBag.states = new SelectList(db.tblStates.ToList(), "Id", "sname");
@@ -127,6 +127,7 @@ namespace RegApp.Controllers
             return View(li);
         }
 
+        //not used
         public ActionResult Edit(int id)
         {
             return View();

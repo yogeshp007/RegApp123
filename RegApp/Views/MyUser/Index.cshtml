@@ -31,7 +31,7 @@
 
                         });
                     },
-                    error: function (x) { alert(x.fail) }
+                    error: function (x) { alert(x.statusText) }
                 });
 
             }
@@ -265,8 +265,6 @@
     <input type="submit" value="Apply Now">
     }
  }
-
-<form action="MyUser" method="post" enctype="multipart/form-data"></form>
 
 <script src="~/scripts/jquery.validate.min.js"></script>
 <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
